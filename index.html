@@ -269,55 +269,28 @@
 
     </div>
 
-                <script>
+                    <!-- Script untuk animasi buka kado & musik -->
+    <script>
         function openGift() {
             const giftScreen = document.getElementById('gift-screen');
             const mainContent = document.getElementById('main-content');
             const music = document.getElementById('bg-music');
             
-            // Set detik lagu jika perlu (hapus baris ini jika ingin dari awal)
-            // music.currentTime = 75; 
-            
+            // Perintah untuk muterin lagu secara otomatis
             music.play();
             
+            // Efek memudar untuk kado
             giftScreen.style.opacity = '0';
             
             setTimeout(() => {
                 giftScreen.style.display = 'none';
                 mainContent.style.display = 'block';
                 
-                // Memicu animasi naik & muncul perlahan
+                // Sedikit delay agar transisi mulus
                 setTimeout(() => {
-                    mainContent.classList.add('show-smooth');
-                }, 50);
-                
-                // Mulai efek hujan bunga
-                startPetals();
+                    mainContent.style.opacity = '1';
+                }, 100);
             }, 1000); 
-        }
-
-        // Fungsi Bikin Hujan Bunga/Hati
-        function startPetals() {
-            setInterval(() => {
-                const petal = document.createElement('div');
-                petal.classList.add('petal');
-                
-                // Pilihan emoji yang jatuh (bisa lu ganti/tambahin)
-                const emojis = ['🌸', '💖', '✨', '🌷']; 
-                petal.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-                
-                // Posisi dan ukuran random
-                petal.style.left = Math.random() * 100 + 'vw';
-                petal.style.animationDuration = Math.random() * 4 + 4 + 's'; // Kecepatan jatuh 4-8 detik
-                petal.style.fontSize = Math.random() * 10 + 15 + 'px'; // Ukuran random
-                
-                document.body.appendChild(petal);
-                
-                // Hapus elemen setelah jatuh biar HP gak ngelag
-                setTimeout(() => {
-                    petal.remove();
-                }, 8000);
-            }, 400); // Munculin partikel baru setiap 0.4 detik
         }
     </script>
 </body>
