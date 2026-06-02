@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You</title>
+    <style>
+        /* Import Font */
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400&display=swap');
+
+        :root {
+            --bg-color: #2b111b; /* Warna background gelap kemerahan */
+            --text-main: #fce4ec; /* Pink sangat muda */
+            --text-muted: #f48fb1; /* Pink */
+            --card-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+        }
+
+        /* Tampilan Kado Awal */
+        #gift-screen {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: opacity 1s ease;
+        }
+
+        .gift-box {
+            font-size: 100px;
+            animation: bounce 2s infinite;
+        }
+
+        .tap-text {
+            margin-top: 10px;
+            font-size: 14px;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Konten Utama (Disembunyikan di awal) */
+        #main-content {
+            display: none;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            opacity: 0;
+            transition: opacity 1.5s ease-in;
+            text-align: center;
+        }
+
+        /* Music Player */
+        .music-container {
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Typography & Spacing */
+        .subtitle {
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .title {
+            font-size: 36px;
+            margin: 0 0 30px 0;
+        }
+
+        .paragraph {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #e0e0e0;
+            margin-bottom: 40px;
+            padding: 0 20px;
+        }
+
+        /* Grid Reasons */
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        .reason-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        .reason-card h3 {
+            margin-top: 0;
+            color: var(--text-muted);
+            font-size: 20px;
+        }
+
+        .reason-card p {
+            font-size: 12px;
+            color: #ccc;
+            margin: 0;
+        }
+
+        /* Secret Garden */
+        .garden {
+            font-size: 30px;
+            letter-spacing: 15px;
+            margin: 30px 0 50px 0;
+        }
+
+        /* Photo Grid */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        .photo-grid img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 15px;
+            filter: grayscale(30%);
+            transition: 0.3s;
+        }
+
+        .photo-grid img:hover {
+            filter: grayscale(0%);
+            transform: scale(1.02);
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding-bottom: 50px;
+        }
+
+        /* Animations */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        /* Floating Petals effect (Simple background animation) */
+        .floating-petals {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveBackground 20s linear infinite;
+        }
+
+        @keyframes moveBackground {
+            from { background-position: 0 0; }
+            to { background-position: 100px 100px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="floating-petals"></div>
+
+    <!-- Layar Kado Awal -->
+    <div id="gift-screen" onclick="openGift()">
+        <div class="gift-box">🎁</div>
+        <div class="tap-text">Tap to open</div>
+    </div>
+
+    <!-- Konten Web Utama -->
+    <div id="main-content">
+        
+        <!-- Musik Player (Spotify Embed - Banda Neira Sampai Jadi Debu) -->
+        <div class="music-container">
+            <iframe style="border-radius:12px" src="https://open.spotify.com/track/5vMYg1wLg1ZK5vOweoRorf?si=312192293a264e66" width="100%" height="80" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+
+        <div class="subtitle">a love letter in bloom</div>
+        <h1 class="title">For You, My Everything</h1>
+
+        <br><br>
+
+        <div class="subtitle">from my heart</div>
+        <h2 class="title">You are my wildest dream come true.</h2>
+        <p class="paragraph">
+            In a world full of ordinary moments, you are the extraordinary one. The way you laugh, the way you care, the way you simply exist — it fills every corner of my world with something I never knew I needed.<br><br>
+            These flowers are not enough. No words ever could be. But they carry every unspoken feeling I hold for you.
+        </p>
+        <div class="subtitle" style="text-transform: none; font-size: 16px;">~ Always yours ~</div>
+
+        <br><br><br>
+
+        <div class="subtitle">a thousand reasons why</div>
+        <h2 class="title">Why I Love You</h2>
+        
+        <div class="reasons-grid">
+            <div class="reason-card">
+                <h3>Your Smile</h3>
+                <p>It lights up every room and every corner of my heart.</p>
+            </div>
+            <div class="reason-card">
+                <h3>Your Soul</h3>
+                <p>Rare, genuine, and more beautiful than any flower ever grown.</p>
+            </div>
+            <div class="reason-card">
+                <h3>Your Kindness</h3>
+                <p>The way you love the world makes me want to be better.</p>
+            </div>
+            <div class="reason-card">
+                <h3>Simply You</h3>
+                <p>Every version of you, every moment — you are more than enough.</p>
+            </div>
+        </div>
+
+        <div class="subtitle">our secret garden</div>
+        <h2 class="title">A Garden Grown Just For You</h2>
+        <div class="garden">🌹🌸🌷🌻🌼🌺</div>
+
+        <br><br>
+
+        <div class="subtitle">captured in time</div>
+        <h2 class="title">Your Beautiful Pictures</h2>
+        
+        <!-- Bagian Foto (Ganti URL fotonya nanti) -->
+        <div class="photo-grid">
+            <img src="https://i.postimg.cc/fbDj89Kc/IMG-2171.jpg" alt="Foto 1">
+            <img src="https://i.postimg.cc/cJ0MFnm0/IMG-2368.jpg" alt="Foto 2">
+            <img src="https://i.postimg.cc/1XJLzS3J/IMG-2750.jpg" alt="Foto 3">
+            <img src="https://i.postimg.cc/P5LBdBs1/IMG-3708.jpg" alt="Foto 4">
+        </div>
+
+        <div class="footer">
+            <div class="subtitle">always & forever</div>
+            <h2 class="title">You Are Loved<br>Beyond Words</h2>
+            <p class="paragraph" style="font-size: 12px;">Made with love, just for you 🤍</p>
+        </div>
+
+    </div>
+
+    <!-- Script untuk animasi buka kado -->
+    <script>
+        function openGift() {
+            const giftScreen = document.getElementById('gift-screen');
+            const mainContent = document.getElementById('main-content');
+            
+            // Efek memudar untuk kado
+            giftScreen.style.opacity = '0';
+            
+            setTimeout(() => {
+                giftScreen.style.display = 'none';
+                mainContent.style.display = 'block';
+                
+                // Sedikit delay agar transisi mulus
+                setTimeout(() => {
+                    mainContent.style.opacity = '1';
+                }, 100);
+            }, 1000); // Sesuai dengan durasi transisi di CSS (1s)
+        }
+    </script>
+</body>
+</html>
