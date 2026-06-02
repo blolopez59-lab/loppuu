@@ -269,14 +269,17 @@
 
     </div>
 
-        <!-- Script untuk animasi buka kado & musik -->
+            <!-- Script untuk animasi buka kado & musik -->
     <script>
         function openGift() {
             const giftScreen = document.getElementById('gift-screen');
             const mainContent = document.getElementById('main-content');
             const music = document.getElementById('bg-music');
             
-            // Perintah untuk muterin lagu secara otomatis
+            // ATUR DETIK MULAI LAGU DI SINI (Contoh: 75 buat menit 1:15)
+            music.currentTime = 75; 
+            
+            // Perintah untuk muterin lagu
             music.play();
             
             // Efek memudar untuk kado
