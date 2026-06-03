@@ -3,25 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For You</title>
+    <title>Untukmu</title>
     <style>
         /* Import Font */
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400&display=swap');
 
         :root {
-            --bg-color: #2b111b; /* Warna background gelap kemerahan */
-            --text-main: #fce4ec; /* Pink sangat muda */
-            --text-muted: #f48fb1; /* Pink */
-            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-main: #fce4ec;
+            --text-muted: #f48fb1;
+            --card-bg: rgba(255, 255, 255, 0.08);
         }
 
+        /* 1. ANIMATED BACKGROUND MEWAH */
         body {
             margin: 0;
             padding: 0;
-            background-color: var(--bg-color);
+            background: linear-gradient(-45deg, #1a050f, #4a1525, #2b111b, #3b0d1e);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             color: var(--text-main);
             font-family: 'Poppins', sans-serif;
             overflow-x: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         h1, h2, h3 {
@@ -29,7 +37,7 @@
             font-weight: 400;
         }
 
-        /* Tampilan Kado Awal */
+        /* 2. KADO MELAYANG BERCAHAYA */
         #gift-screen {
             height: 100vh;
             display: flex;
@@ -38,259 +46,309 @@
             align-items: center;
             cursor: pointer;
             transition: opacity 1s ease;
+            position: relative;
+            z-index: 1000;
         }
 
         .gift-box {
-            font-size: 100px;
-            animation: bounce 2s infinite;
+            font-size: 120px;
+            animation: floatGift 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 30px rgba(244, 143, 177, 0.8));
+        }
+
+        @keyframes floatGift {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.05); }
         }
 
         .tap-text {
-            margin-top: 10px;
-            font-size: 14px;
+            margin-top: 20px;
+            font-size: 16px;
             color: var(--text-muted);
-            letter-spacing: 2px;
-            animation: pulse 1.5s infinite;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            animation: pulseText 1.5s infinite;
         }
 
-        /* Konten Utama (Disembunyikan di awal) */
+        @keyframes pulseText {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; text-shadow: 0 0 10px var(--text-muted); }
+        }
+
+        /* 3. KONTEN MUNCUL SINEMATIK (UNBLUR & SLIDE) */
         #main-content {
             display: none;
             max-width: 800px;
             margin: 0 auto;
             padding: 40px 20px;
-            opacity: 0;
-            transition: opacity 1.5s ease-in;
             text-align: center;
+            
+            opacity: 0;
+            transform: translateY(80px) scale(0.95);
+            filter: blur(10px);
+            transition: opacity 2s ease-out, transform 2s cubic-bezier(0.2, 0.8, 0.2, 1), filter 2s ease-out;
+            position: relative;
+            z-index: 10;
         }
 
-        /* Music Player */
-        .music-container {
-            margin-bottom: 40px;
-            display: flex;
-            justify-content: center;
+        #main-content.show-epic {
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) !important;
+            filter: blur(0) !important;
         }
 
-        /* Typography & Spacing */
+        /* Efek Glow & Glassmorphism */
+        .title {
+            font-size: 40px;
+            margin: 0 0 30px 0;
+            text-shadow: 0 0 20px rgba(244, 143, 177, 0.8);
+        }
+
         .subtitle {
             font-size: 12px;
             color: var(--text-muted);
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             text-transform: uppercase;
-            margin-bottom: 5px;
-        }
-
-        .title {
-            font-size: 36px;
-            margin: 0 0 30px 0;
+            margin-bottom: 10px;
         }
 
         .paragraph {
-            font-size: 14px;
-            line-height: 1.8;
-            color: #e0e0e0;
+            font-size: 15px;
+            line-height: 1.9;
+            color: #fce4ec;
             margin-bottom: 40px;
             padding: 0 20px;
-        }
-
-        /* Grid Reasons */
-        .reasons-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 50px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
 
         .reason-card {
             background: var(--card-bg);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 20px;
-            border-radius: 15px;
-            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,192,203,0.2);
+            padding: 25px;
+            border-radius: 20px;
+            backdrop-filter: blur(15px); /* Efek kaca */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
 
-        .reason-card h3 {
-            margin-top: 0;
-            color: var(--text-muted);
-            font-size: 20px;
+        .reason-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(244, 143, 177, 0.3);
+            border: 1px solid rgba(255,192,203,0.5);
         }
 
-        .reason-card p {
-            font-size: 12px;
-            color: #ccc;
-            margin: 0;
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 60px;
         }
 
-        /* Secret Garden */
-        .garden {
-            font-size: 30px;
-            letter-spacing: 15px;
-            margin: 30px 0 50px 0;
-        }
-
-        /* Photo Grid */
+        /* Foto Efek Mewah */
         .photo-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 50px;
+            gap: 20px;
+            margin-bottom: 60px;
         }
 
         .photo-grid img {
             width: 100%;
-            height: 250px;
+            height: 280px;
             object-fit: cover;
-            border-radius: 15px;
-            filter: grayscale(30%);
-            transition: 0.3s;
+            border-radius: 20px;
+            filter: grayscale(40%) sepia(20%);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .photo-grid img:hover {
-            filter: grayscale(0%);
-            transform: scale(1.02);
+            filter: grayscale(0%) sepia(0%);
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 15px 30px rgba(244, 143, 177, 0.5);
+            z-index: 2;
+            position: relative;
         }
 
-        .footer {
-            margin-top: 50px;
-            padding-bottom: 50px;
-        }
+        .footer { padding-bottom: 80px; margin-top: 60px; }
 
-        /* Animations */
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-20px); }
-            60% { transform: translateY(-10px); }
-        }
-
-        @keyframes pulse {
-            0% { opacity: 0.5; }
-            50% { opacity: 1; }
-            100% { opacity: 0.5; }
-        }
-
-        /* Floating Petals effect (Simple background animation) */
-        .floating-petals {
+        /* 4. ANIMASI BUNGA BERGOYANG (SWAYING PETALS) */
+        .petal {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            z-index: 1;
             pointer-events: none;
-            z-index: -1;
-            background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: moveBackground 20s linear infinite;
+            animation: fall linear forwards, sway 3s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 10px rgba(255,105,180,0.6));
         }
 
-        @keyframes moveBackground {
-            from { background-position: 0 0; }
-            to { background-position: 100px 100px; }
+        @keyframes fall {
+            from { top: -10vh; }
+            to { top: 110vh; }
+        }
+
+        @keyframes sway {
+            0% { transform: translateX(-30px) rotate(0deg); }
+            100% { transform: translateX(30px) rotate(360deg); }
         }
 
     </style>
 </head>
 <body>
 
-    <div class="floating-petals"></div>
-
-    <!-- Layar Kado Awal -->
     <div id="gift-screen" onclick="openGift()">
         <div class="gift-box">🎁</div>
-        <div class="tap-text">Tap to open</div>
+        <div class="tap-text">Ketuk untuk membuka</div>
     </div>
 
-    <!-- Konten Web Utama -->
     <div id="main-content">
-        
-                        <!-- Musik Background Otomatis -->
         <audio id="bg-music" loop>
             <source src="lagu.mp3" type="audio/mpeg">
         </audio>
 
-        <div class="subtitle">a love letter in bloom</div>
-        <h1 class="title">For You, My Everything</h1>
+        <div class="subtitle">secarik surat cinta untukmu</div>
+        <h1 class="title">Untukmu, Segalanya Bagiku</h1>
 
         <br><br>
 
-        <div class="subtitle">from my heart</div>
-        <h2 class="title">You are my wildest dream come true.</h2>
+        <div class="subtitle">dari lubuk hatiku</div>
+        <h2 class="title">Kamu adalah mimpi terindah yang jadi kenyataan.</h2>
         <p class="paragraph">
-            In a world full of ordinary moments, you are the extraordinary one. The way you laugh, the way you care, the way you simply exist — it fills every corner of my world with something I never knew I needed.<br><br>
-            These flowers are not enough. No words ever could be. But they carry every unspoken feeling I hold for you.
+            Di dunia yang penuh dengan hal-hal biasa, kamu adalah satu-satunya hal yang luar biasa. Tawamu, perhatianmu, dan sekadar kehadiranmu saja — mampu memenuhi setiap sudut duniaku dengan sesuatu yang tak pernah kusangka sangat kubutuhkan.<br><br>
+            Bunga-bunga ini takkan pernah cukup. Begitu pula dengan kata-kata. Tapi kuharap ini bisa menyampaikan setiap perasaan yang tak terucapkan untukmu.
         </p>
-        <div class="subtitle" style="text-transform: none; font-size: 16px;">~ Always yours ~</div>
+        <div class="subtitle" style="text-transform: none; font-size: 16px;">~ Selalu milikmu ~</div>
 
         <br><br><br>
 
-        <div class="subtitle">a thousand reasons why</div>
-        <h2 class="title">Why I Love You</h2>
+        <div class="subtitle">ribuan alasan mengapa</div>
+        <h2 class="title">Kenapa Aku Mencintaimu</h2>
         
         <div class="reasons-grid">
             <div class="reason-card">
-                <h3>Your Smile</h3>
-                <p>It lights up every room and every corner of my heart.</p>
+                <h3 style="color: var(--text-muted); margin-top: 0;">Senyummu</h3>
+                <p style="color: #eee; font-size: 13px;">Menerangi setiap ruangan dan menghangatkan setiap sudut hatiku.</p>
             </div>
             <div class="reason-card">
-                <h3>Your Soul</h3>
-                <p>Rare, genuine, and more beautiful than any flower ever grown.</p>
+                <h3 style="color: var(--text-muted); margin-top: 0;">Jiwamu</h3>
+                <p style="color: #eee; font-size: 13px;">Langka, tulus, dan lebih indah dari bunga manapun yang pernah mekar.</p>
             </div>
             <div class="reason-card">
-                <h3>Your Kindness</h3>
-                <p>The way you love the world makes me want to be better.</p>
+                <h3 style="color: var(--text-muted); margin-top: 0;">Kebaikanmu</h3>
+                <p style="color: #eee; font-size: 13px;">Caramu menyayangi sekitar membuatku ingin jadi orang yang lebih baik.</p>
             </div>
             <div class="reason-card">
-                <h3>Simply You</h3>
-                <p>Every version of you, every moment — you are more than enough.</p>
+                <h3 style="color: var(--text-muted); margin-top: 0;">Hanya Kamu</h3>
+                <p style="color: #eee; font-size: 13px;">Setiap versi dirimu, di setiap momen bersamamu — kamu lebih dari sekadar cukup.</p>
             </div>
         </div>
 
-        <div class="subtitle">our secret garden</div>
-        <h2 class="title">A Garden Grown Just For You</h2>
-        <div class="garden">🌹🌸🌷🌻🌼🌺</div>
+        <div class="subtitle">taman rahasia kita</div>
+        <h2 class="title">Taman yang Mekar Hanya Untukmu</h2>
+        <div style="font-size: 35px; letter-spacing: 15px; margin: 30px 0 50px 0; filter: drop-shadow(0 0 15px rgba(255,255,255,0.4));">🌹🌸🌷🌻🌼🌺</div>
 
         <br><br>
 
-        <div class="subtitle">captured in time</div>
-        <h2 class="title">Your Beautiful Pictures</h2>
+        <div class="subtitle">terekam dalam waktu</div>
+        <h2 class="title">Foto-foto Cantikmu</h2>
         
-                <!-- Bagian Foto -->
         <div class="photo-grid">
             <img src="foto1.JPG" alt="Foto 1">
             <img src="foto2.JPG" alt="Foto 2">
             <img src="foto3.JPG" alt="Foto 3">
-            <img src="foto5.JPG" alt="Foto 4">
+            <img src="foto4.JPG" alt="Foto 4">
         </div>
 
         <div class="footer">
-            <div class="subtitle">always & forever</div>
-            <h2 class="title">You Are Loved<br>Beyond Words</h2>
-            <p class="paragraph" style="font-size: 12px;">Made with love, just for you 🤍</p>
+            <div class="subtitle">selalu & selamanya</div>
+            <h2 class="title">Rasa Sayang Ini<br>Tak Terlukiskan Kata</h2>
+            <p class="paragraph" style="font-size: 12px; opacity: 0.7;">Dibuat dengan penuh cinta, khusus untukmu 🤍</p>
         </div>
-
     </div>
 
-                    <!-- Script untuk animasi buka kado & musik -->
     <script>
         function openGift() {
             const giftScreen = document.getElementById('gift-screen');
             const mainContent = document.getElementById('main-content');
             const music = document.getElementById('bg-music');
             
-            // Perintah untuk muterin lagu secara otomatis
             music.play();
             
-            // Efek memudar untuk kado
+            // 5. EFEK LEDAKAN KETIKA DIKLIK
+            createBurst();
+            
             giftScreen.style.opacity = '0';
             
             setTimeout(() => {
                 giftScreen.style.display = 'none';
                 mainContent.style.display = 'block';
                 
-                // Sedikit delay agar transisi mulus
+                // Memicu animasi cinematic
                 setTimeout(() => {
-                    mainContent.style.opacity = '1';
+                    mainContent.classList.add('show-epic');
                 }, 100);
-            }, 1000); 
+                
+                // Mulai hujan bunga setelah ledakan selesai
+                setTimeout(startPetals, 1000);
+            }, 800); 
+        }
+
+        // Fungsi Ledakan Hati (Burst)
+        function createBurst() {
+            const emojis = ['💖', '✨', '🌸', '💫'];
+            for(let i = 0; i < 40; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                    particle.style.position = 'fixed';
+                    particle.style.left = '50%';
+                    particle.style.top = '50%';
+                    particle.style.fontSize = (Math.random() * 25 + 15) + 'px';
+                    particle.style.pointerEvents = 'none';
+                    particle.style.zIndex = '9999';
+                    
+                    const angle = Math.random() * Math.PI * 2;
+                    const velocity = 30 + Math.random() * 120;
+                    const tx = Math.cos(angle) * velocity;
+                    const ty = Math.sin(angle) * velocity;
+                    
+                    particle.animate([
+                        { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+                        { transform: `translate(calc(-50% + ${tx}vw), calc(-50% + ${ty}vh)) scale(0)`, opacity: 0 }
+                    ], {
+                        duration: 1000 + Math.random() * 1500,
+                        easing: 'cubic-bezier(0, .9, .57, 1)'
+                    });
+                    
+                    document.body.appendChild(particle);
+                    setTimeout(() => particle.remove(), 2500);
+                }, i * 15); // Jeda kecil tiap partikel biar ledakannya dramatis
+            }
+        }
+
+        // Fungsi Hujan Bunga Goyang (Swaying Petals)
+        function startPetals() {
+            setInterval(() => {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                
+                const emojis = ['🌸', '💖', '✨', '🌷', '🦋']; 
+                petal.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                
+                petal.style.left = Math.random() * 100 + 'vw';
+                
+                // Durasi jatuh acak (6-12 detik biar elegan pelan-pelan)
+                const fallDuration = Math.random() * 6 + 6; 
+                petal.style.animationDuration = `${fallDuration}s, 3s`; 
+                
+                petal.style.fontSize = Math.random() * 15 + 15 + 'px';
+                petal.style.opacity = Math.random() * 0.5 + 0.5;
+                
+                document.body.appendChild(petal);
+                
+                setTimeout(() => {
+                    petal.remove();
+                }, fallDuration * 1000);
+            }, 300);
         }
     </script>
 </body>
